@@ -32,6 +32,18 @@ const restaurantRoute = [
         component: React.lazy(() => import('views/dispatcher')),
         authority: [RESTAURANT],
     },
+    {
+        key: 'restaurant.table.show',
+        path: '/restaurant/table/show',
+        component: React.lazy(() => import('views/tables')),
+        authority: [RESTAURANT],
+    },
+    {
+        key: 'restaurant.table.create',
+        path: '/restaurant/table/create',
+        component: React.lazy(() => import('views/tables')),
+        authority: [RESTAURANT],
+    },
 ]
 
 export default restaurantRoute

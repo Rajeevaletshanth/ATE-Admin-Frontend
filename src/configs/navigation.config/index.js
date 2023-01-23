@@ -7,13 +7,13 @@ import {SUPERADMIN, ADMIN, RESTAURANT, USER, SALES} from 'constants/roles.consta
 
 const navigationConfig = [
   {
-    key: "apps",
+    key: "restaurant",
     path: "",
     title: "Restaurant",
     translateKey: "nav.restaurant",
     icon: "restaurant",
     type: NAV_ITEM_TYPE_TITLE,
-    authority: [],
+    authority: [RESTAURANT],
     subMenu: [
       {
         key: "home",
@@ -22,7 +22,7 @@ const navigationConfig = [
         translateKey: "nav.home",
         icon: "home",
         type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
+        authority: [RESTAURANT],
         subMenu: [],
       },
       {
@@ -32,9 +32,19 @@ const navigationConfig = [
         translateKey: "nav.dispatcher",
         icon: "dispatcher",
         type: NAV_ITEM_TYPE_ITEM,
-        authority: [],
+        authority: [RESTAURANT],
         subMenu: [],
-      }
+      },
+      {
+        key: "table",
+        path: "/restaurant/table/show",
+        title: "Table",
+        translateKey: "nav.table",
+        icon: "table",
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [RESTAURANT],
+        subMenu: [],
+      },
     ],
   },
   {

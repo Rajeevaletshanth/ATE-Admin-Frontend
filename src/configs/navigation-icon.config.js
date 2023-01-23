@@ -13,11 +13,9 @@ import {
     HiShieldCheck,
     HiCog
 } from 'react-icons/hi'
-
-
-
 import {
-    TbBrowserCheck
+    TbBrowserCheck,
+    TbStack
 } from 'react-icons/tb'
 
 const navigationIcon = {
@@ -30,7 +28,8 @@ const navigationIcon = {
     verify: <HiShieldCheck />,
     restaurant: <HiShieldCheck />,
     dispatcher: <TbBrowserCheck />,
-    cog: <HiCog />
+    cog: <HiCog />,
+    table: <TbStack />
 }
 
 export default navigationIcon
