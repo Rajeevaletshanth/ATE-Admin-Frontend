@@ -7,7 +7,7 @@ import {  getTableData } from './store/dataSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import TableList from './components/TableList'
 // import ProductList from './components/ProductList'
-
+import Create from '../Create/Create'
 
 injectReducer('manageTables', reducer)
 
@@ -21,7 +21,6 @@ const ManageTables = ({id}) => {
 
 	useEffect(() => {
 		fetchData()	
-		setRefreshData(false)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [refreshData])
 	
@@ -31,17 +30,20 @@ const ManageTables = ({id}) => {
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
-			<Loading loading={loading}>				
+						
 				<Container>
-					<AdaptableCard>
-						<div className="px-4 py-6">
+					{/* <AdaptableCard> */}
+						{/* <div className="px-4 py-6"> */}
 							<h3 className='mb-6'>Tables</h3>
 							<hr className='mb-4'/>
-							{tables && <TableList setRefreshData={setRefreshData}  data={tables} dataLength={tables.length}/>} 
-						</div>
-					</AdaptableCard>
+							<Create id={id} refreshData={refreshData} setRefreshData={setRefreshData}/>
+							{/* <Loading loading={loading}>	 */}
+							{tables && <TableList refreshData={refreshData} setRefreshData={setRefreshData}  data={tables} dataLength={tables.length} id={id}/>}
+							{/* </Loading>  */}
+						{/* </div> */}
+					{/* </AdaptableCard> */}
 				</Container>
-			</Loading>
+			
 		</div>
 	)
 }

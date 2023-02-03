@@ -9,6 +9,10 @@
         "manage_lead": "Gestire i Lead",
         "restaurant" : "Ristorante",
         "settings": "Impostazioni",
-        "account": "Account"
+        "account": "Account",
+        "dispatcher": "Spedizioniere",
+        "table": "Tavolo",
+        "reservation": "Prenotazione",
+        "products" : "Prodotti"
     }
 }

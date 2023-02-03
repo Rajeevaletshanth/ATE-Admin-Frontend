@@ -8,8 +8,10 @@ import {
     toast,
     FormContainer,
     Select,
-    Card
+    Card,
+    InputGroup
 } from 'components/ui'
+
 import FormDesription from './FormDesription'
 import FormRow from './FormRow'
 import { Field, Form, Formik } from 'formik'
@@ -31,9 +33,9 @@ import { addTable } from 'services/RestaurantApiServices'
 
 
 const validationSchema = Yup.object().shape({
-    table_no: Yup.number().max(1000, 'Table number exceeds the limit!').required('Table number required.'),
-    table_type: Yup.string().max(100, 'Maximum length 100').required('Table type required.'),
-    seat_count: Yup.number().max(100, 'Chair counts exceeds the limit!').required('Chair count required.')
+    table_no: Yup.number().max(1000, 'Table number exceeds the limit!').required('Required.'),
+    table_type: Yup.string().max(100, 'Maximum length 100').required('Required.'),
+    seat_count: Yup.number().max(100, 'Chair counts exceeds the limit!').required('Required.')
 })
 
 const tableShapes = [
@@ -43,12 +45,14 @@ const tableShapes = [
     { value: 'Oval', label: 'Oval' }
 ]
 
-const Create = ({id}) => {
+const Create = ({id, refreshData, setRefreshData}) => {
 
     const [qrcode, setQrcode] = useState("") 
     const [tableNO, setTableNo] = useState() 
     const [tableType, setTableType] = useState("") 
     const [seatCount, setSeatCount] = useState() 
+
+    const { Addon } = InputGroup 
 
     const onFormSubmit = async (values, setSubmitting) => {
         let data = {
@@ -64,6 +68,7 @@ const Create = ({id}) => {
                 setTableType(values.table_type)
                 setSeatCount(values.seat_count)
                 toast.push(<Notification title={response.data.message} type="success" />, { placement: 'top-center' })
+                setRefreshData(!refreshData)
             } else {
                 toast.push(<Notification title={response.data.message === "Validation error"? `Table no : ${values.table_no} is already added!`: response.data.message} type="danger" />, { placement: 'top-center' })
             }
@@ -73,11 +78,11 @@ const Create = ({id}) => {
     }
 
   return (
-    <div>
+    <div className="mb-5">
     <Formik
             initialValues={{
-                table_type: '',
-                seat_count: 4
+                table_no:'',
+                seat_count:''
             }}
             enableReinitialize
             validationSchema={validationSchema}
@@ -98,7 +103,8 @@ const Create = ({id}) => {
                                 desc="Table customization"
                             />
 
-                                <FormRow className="bg-dark" name="table_no" label="Table No" {...validatorProps}>
+                                <InputGroup className="mb-5 mt-4">
+                                    <FormRow  name="table_no" label="Table No" {...validatorProps}>
                                     <Field
                                         type="number"
                                         autoComplete="off"
@@ -108,11 +114,11 @@ const Create = ({id}) => {
                                         // prefix={<AiOutlineFieldNumber className="text-xl" />}
                                     />
                                 </FormRow>
-                                <FormRow name="table_type" label="Table Shape" {...validatorProps}>
+                                <FormRow  name="table_type" label="Table Shape" {...validatorProps}>
                                     <Field name="table_type" >
                                         {({ field, form }) => (
                                             <Select
-                                                placeholder="Select a Table Type.."
+                                                placeholder="Type"
                                                 field={field}
                                                 form={form}
                                                 options={tableShapes}
@@ -123,7 +129,7 @@ const Create = ({id}) => {
                                     </Field>
                                 </FormRow>	
 
-                                <FormRow name="seat_count" label="Chairs" {...validatorProps}>
+                                <FormRow  name="seat_count" label="Chairs" {...validatorProps}>
                                     <Field
                                         type="number"
                                         autoComplete="off"
@@ -133,10 +139,9 @@ const Create = ({id}) => {
                                         // prefix={<FaChair className="text-xl" />}
                                     />
                                 </FormRow>	
+                                </InputGroup>
 
-                            
-
-                            <div className="mt-4 ltr:text-right">
+                            <div className="mt-5 mb-5 ltr:text-right">
                                 <Button className="ltr:mr-2 rtl:ml-2" type="button" onClick={resetForm}>Reset</Button>
                                 <Button variant="solid" loading={isSubmitting} type="submit">
                                     {isSubmitting ? 'Adding Table...' : 'Add'}
@@ -150,7 +155,7 @@ const Create = ({id}) => {
 
         </Formik>
 
-        {qrcode && <div className='border-dashed border-2 p-5 bg-gray-100 mt-5'>
+        {/* {qrcode && <div className='border-dashed border-2 p-5 bg-gray-100 mt-5'>
 
                 <div className="text-center mb-4">
                     <h2>New Table Added</h2>
@@ -167,14 +172,7 @@ const Create = ({id}) => {
                     <a className='bg-green-500 hover:bg-green-600 p-2 px-4 text-white rounded-lg' download={`QR Code - Table ${tableNO}`} href={qrcode}>Download</a>
                 </div>
             
-		</div>}
-        {/* <div className='flex justify-center'>
-            <img src={qrcode?qrcode:""}  alt="" />
-        </div>
-        <div className="text-center">
-            {qrcode && <a className='bg-green-500 hover:bg-green-600 p-2 px-4 text-white rounded-lg' download={tableNO} href={qrcode}>Download</a>}
-        </div>
-             */}
+		</div>} */}
         
         
     </div>

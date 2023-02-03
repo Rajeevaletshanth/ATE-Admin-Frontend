@@ -1,257 +1,179 @@
-import React, { useState, useMemo } from 'react'
-import { Table, Pagination, Select, Tag, Input, Button, Drawer} from 'components/ui'
-import { useTable, usePagination, useSortBy, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
-import  { matchSorter } from 'match-sorter'
+import React, { useState, useMemo } from "react";
+import {
+  Table,
+  Pagination,
+  Select,
+  Tag,
+  Input,
+  Button,
+  Drawer,
+  Card,
+  Skeleton,
+} from "components/ui";
+import {
+  useTable,
+  usePagination,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useAsyncDebounce,
+} from "react-table";
+import { matchSorter } from "match-sorter";
 // import EditLead from './EditProduct'
-import { toast, Notification } from 'components/ui'
-import { deleteTable } from 'services/RestaurantApiServices'
-import { HiTrash, HiOutlinePencil } from 'react-icons/hi'
+import EditTable from "./EditTable";
+import { toast, Notification } from "components/ui";
+import { deleteTable } from "services/RestaurantApiServices";
 
+import { AiOutlineFieldNumber } from "react-icons/ai";
+import { FaShapes, FaChair } from "react-icons/fa";
 
-const columns = [
-    // {
-    //     Header: 'ID',
-    //     accessor: 'id'
-    // },
-    {
-        Header: 'Table No',
-        accessor: 'table_no'
-    },
-	{
-        Header: 'Table Type',
-        accessor: 'table_type'
-    },
-	{
-        Header: 'Chairs',
-        accessor: 'seat_count'
-    },
-	{
-        Header: ' QR Code',
-        accessor: 'qr_code'
-    },
-    {
-        Header: 'Action'
+const TableList = (props) => {
+  const { data, dataLength, refreshData, setRefreshData, id } = props;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [editId, setEditId] = useState();
+  const [editData, setEditData] = useState();
+
+  const openDrawer = (data) => {
+    setEditData(JSON.parse(data));
+    setIsOpen(true);
+  };
+
+  const onDrawerClose = () => {
+    setEditId();
+    setIsOpen(false);
+  };
+
+  const editLead = (e) => {
+    openDrawer(e.target.getAttribute("data-details"));
+  };
+
+  const deleteRow = async (id) => {
+    const resp = await deleteTable(id);
+    if (resp.data) {
+      if (resp.data.response === "success") {
+        toast.push(<Notification title={resp.data.message} type="success" />, {
+          placement: "top-center",
+        });
+        setTimeout(() => {
+          setRefreshData(!refreshData);
+        }, 500);
+      } else if (resp.data.response === "warning") {
+        toast.push(<Notification title={resp.data.message} type="success" />, {
+          placement: "top-center",
+        });
+      }
     }
-]
+  };
 
-const { Tr, Th, Td, THead, TBody, Sorter } = Table
+  const downloadQr = (qr_url, filename) => {
+    const link = document.createElement("a");
+    link.href = qr_url;
+    link.download = filename;
+    link.click();
+  };
 
+  return (
+    <div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
+        {data.map((item, key) => {
+          return [
+            <Card
+              key={key}
+              clickable
+              className="hover:shadow-lg transition duration-150 ease-in-out  dark:border dark:border-gray-600 dark:border-solid flex justify-center items-center mb-2"
+              headerClass="p-0"
+            >
+              <div className="rounded-tl-lg rounded-tr-lg overflow-hidden ">
+                <h4 className="font-bold text-center mb-2">
+                  Table {item.table_no}
+                </h4>
+                <img src={item.qr_code} alt="image" width={300}/>
+              </div>
 
-const pageSizeOption = [
-	{ value: 10, label: '10 / page'},
-	{ value: 20, label: '20 / page'},
-	{ value: 30, label: '30 / page'},
-	{ value: 40, label: '40 / page'},
-	{ value: 50, label: '50 / page'},
-]
+              <div className="ml-3 text-gray-800 dark:text-gray-200 mt-2 mb-2">
+                <div className="col">
+                  {/* <div class="ml-5 flex items-center font-bold text-gray-700">
+                    <AiOutlineFieldNumber />
+                    <span class="font-bold">
+                      &nbsp; Table No - {item.table_no}
+                    </span>
+                  </div> */}
+                  <div class="ml-5 flex items-center font-bold ">
+                    <FaShapes />
+                    <span class="">
+                      &nbsp; Type - {item.table_type}
+                    </span>
+                  </div>
+                  <div class="ml-5 flex items-center font-bold">
+                    <FaChair />
+                    <span class="">
+                      &nbsp; Chairs - {item.seat_count}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-function FilterInput ({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
-	const count = preGlobalFilteredRows.length
-	const [value, setValue] = useState(globalFilter)
-	const onChange = useAsyncDebounce(value => {
-		setGlobalFilter(value || undefined)
-	}, 200)
+              <div className="flex justify-center items-center mt-5">
+                <span className="text-center">
+                  <Button
+                    className="mr-2 mb-2"
+                    size="xs"
+                    variant="solid"
+                    color="gray-600"
+                    onClick={() =>
+                      downloadQr(
+                        item.qr_code,
+                        `QR Code - Table ${item.table_no}`
+                      )
+                    }
+                  >
+                    {" "}
+                    Download{" "}
+                  </Button>
 
-	return (
-		<div className="flex justify-end">
-			<div className="flex items-center mb-4">
-				{/* <span className="mr-2">Search:</span> */}
-				<Input
-					size="sm"
-					value={value || ""}
-					onChange={e => {
-						setValue(e.target.value)
-						onChange(e.target.value)
-					}}
-					style={{maxWidth: 180}}
-					placeholder={`Search`}
-				/>
-			</div>
-		</div>
-	)
-}
+                  <Button
+                    className="mr-2 mb-2"
+                    size="xs"
+                    variant="solid"
+                    color="gray-600"
+                    id={item.id}
+                    data-details={JSON.stringify(item)}
+                    onClick={editLead}
+                  >
+                    {" "}
+                    Edit{" "}
+                  </Button>
 
-function fuzzyTextFilterFn(rows, id, filterValue) {
-	return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
-}
+                  <Button
+                    size="xs"
+                    variant="solid"
+                    color="red-800"
+                    onClick={() => deleteRow(item.id)}
+                  >
+                    {" "}
+                    Delete{" "}
+                  </Button>
+                </span>
+              </div>
+            </Card>
+          ];
+        })}
+      </div>
 
-// Let the table remove the filter if the string is empty
-fuzzyTextFilterFn.autoRemove = val => !val
+      {
+        <Drawer
+          title="Edit Table"
+          isOpen={isOpen}
+          onClose={onDrawerClose}
+          onRequestClose={onDrawerClose}
+          // footer={Footer}
+        >
+          <EditTable data={editData} id={id} refreshData={refreshData} setRefreshData={setRefreshData} />
+        </Drawer>
+      }
+    </div>
+  );
+};
 
-const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-const TableList = props => {
-
-	const { data, dataLength, setRefreshData } = props
-
-    const [isOpen, setIsOpen] = useState(false)
-    const [editId, setEditId] = useState(); 
-    const [editData, setEditData] = useState(); 
-
-	const openDrawer = (data) => {
-        setEditData(JSON.parse(data))
-		setIsOpen(true)
-	}
-
-	const onDrawerClose = () => {
-        setEditId()
-		setIsOpen(false)
-	}
-
-    const Footer = (
-        <div className="text-right w-full">
-            <Button size="sm" className="mr-2" onClick={() => onDrawerClose()}>Close</Button>
-            <Button size="sm" variant="solid" onClick={() => onDrawerClose()}>Confirm</Button>
-        </div>
-    )
-
-    const filterTypes = useMemo(() => ({
-		// Add a new fuzzyTextFilterFn filter type.
-		fuzzyText: fuzzyTextFilterFn,
-		// Or, override the default text filter to use
-		// "startWith"
-		text: (rows, id, filterValue) => {
-			return rows.filter(row => {
-				const rowValue = row.values[id]
-				return rowValue !== undefined ? String(rowValue).toLowerCase().startsWith(String(filterValue).toLowerCase()) : true
-			})
-		},
-	}),[])
-
-	const {
-		getTableProps,
-		getTableBodyProps,
-		headerGroups,
-		prepareRow,
-		page,
-		gotoPage,
-		setPageSize,
-		state: { pageIndex, pageSize },
-		rows,
-		state,
-		preGlobalFilteredRows,
-		setGlobalFilter,
-			allColumns,
-	} = useTable(
-		{
-			columns,
-			data,
-			initialState: { pageIndex: 0 },
-			manualPagination: false,
-            filterTypes,
-		},
-        useFilters, 
-		useGlobalFilter,
-        useSortBy,
-		usePagination
-        
-	)
-
-	const onPaginationChange = page => {
-		gotoPage(page - 1)
-	}
-
-	const onSelectChange = value => {
-		setPageSize(Number(value))
-	}
-
-    const editLead = (e) => {
-        openDrawer(e.target.getAttribute('data-details'))
-    }
-	// Deleted
-	const deleteRow = async (id) => {
-		const resp = await deleteTable(id);
-		if (resp.data) {
-			if (resp.data.response === "success") {
-				toast.push(<Notification title={resp.data.message} type="success" />, { placement: 'top-center' })
-				setTimeout(() => {
-					setRefreshData(true)
-				}, 500)
-
-			} else if (resp.data.response === "warning") {
-				toast.push(<Notification title={resp.data.message} type="success" />, { placement: 'top-center' })
-			}
-		}
-	}
-
-	return (
-		<div>
-            <FilterInput
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-            />                
-            
-			<Table {...getTableProps()}>
-				<THead>
-					{headerGroups.map(headerGroup => (
-						<Tr {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map(column => (
-                            <Th {...column.getHeaderProps(column.getSortByToggleProps())} >
-								<div className="text-center">
-									{column.render('Header')}
-									<span>
-										<Sorter sort={column.isSortedDesc}/>
-									</span>
-								</div>
-							</Th>                               
-							))}
-						</Tr>
-					))}
-				</THead>
-				<TBody {...getTableBodyProps()}>
-					{page.map((row, i) => {
-						prepareRow(row)
-						return (
-							<Tr {...row.getRowProps()}>
-								{row.cells.map(cell => {
-                                     if(cell.column.id === "qr_code"){
-										return <Td {...cell.getCellProps()} className="flex justify-center"><img src={cell.value} alt={`QRCode - Table ${cell.row.original.table_no}`} /></Td>
-                                        //  return <Td {...cell.getCellProps()}><Tag className={!cell.value? "text-white bg-green-600 border-0" : "text-white bg-red-600 border-0"}> {!cell.value? "Active" : "Suspended"} </Tag> </Td>
-                                     }else if(cell.column.Header === "Action"){
-                                         return <Td {...cell.getCellProps()} className="text-center"> 
-										 <Button className="mr-2 mb-2" size="xs" variant="solid" color="yellow-500" id={cell.row.original.id} data-details={JSON.stringify(cell.row.original)} onClick={editLead}> Edit </Button>
-										 <Button size="xs" variant="solid" color="red-500"  onClick={() => deleteRow(cell.row.original.id)}> Delete </Button>
-										 </Td> 
-                                     }else{
-                                         return <Td {...cell.getCellProps()} className="text-center"><b>{cell.render('Cell')}</b></Td>
-                                     }									
-								})}
-							</Tr>
-						)
-					})}
-				</TBody>
-			</Table>
-            {editData && <Drawer
-				title="Products"
-				isOpen={isOpen}
-				onClose={onDrawerClose}
-				onRequestClose={onDrawerClose}
-                // footer={Footer}
-			>
-                {/* <EditLead data={editData}/> */}
-			</Drawer>} 
-			<div className="flex items-center justify-between mt-4">
-				<Pagination
-					pageSize={pageSize}
-					currentPage={pageIndex + 1}
-					total={dataLength}
-					onChange={onPaginationChange}
-				/>
-				<div style={{minWidth: 130}}>
-					<Select
-						size="sm"
-						isSearchable={false} 
-						value={pageSizeOption.filter(option => option.value === pageSize)} 
-						options={pageSizeOption}
-						onChange={option => onSelectChange(option.value)}
-					/>
-				</div>
-			</div>
-		</div>
-	)
-}
-
-export default TableList
+export default TableList;

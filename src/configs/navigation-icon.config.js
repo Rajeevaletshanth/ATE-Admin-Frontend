@@ -11,12 +11,19 @@ import {
     HiOutlineUserAdd,
     HiOutlineUserGroup,
     HiShieldCheck,
-    HiCog
+    HiCog,
+    HiOutlineCalendar,
+    HiOutlineShoppingBag
 } from 'react-icons/hi'
 import {
     TbBrowserCheck,
     TbStack
 } from 'react-icons/tb'
+import {
+    MdOutlineRestaurantMenu,
+    MdFastfood
+} from 'react-icons/md'
+
 
 const navigationIcon = {
     home: <HiOutlineHome />,
@@ -26,10 +33,12 @@ const navigationIcon = {
     add_user: <HiOutlineUserAdd />,
     users: <HiOutlineUserGroup />,
     verify: <HiShieldCheck />,
-    restaurant: <HiShieldCheck />,
+    restaurant: <MdOutlineRestaurantMenu />,
     dispatcher: <TbBrowserCheck />,
     cog: <HiCog />,
-    table: <TbStack />
+    table: <TbStack />,
+    reservation: <HiOutlineCalendar />,
+    product: <MdFastfood />,
 }
 
 export default navigationIcon

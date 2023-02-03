@@ -15,13 +15,12 @@ const FormRow = props => {
 	} =props
 
 	return (
-		<div className={classNames(
-			'grid md:grid-cols-3 gap-4 py-8',
-			border && 'border-b border-gray-200 dark:border-gray-600',
-			alignCenter && 'items-center'
-		)}>
-			<div className="font-semibold">{label}</div>
-			<div className="col-span-4">
+		// <div className={classNames(
+		// 	'grid md:grid-cols-3 gap-4 py-8',
+		// 	alignCenter && 'items-center'
+		// )}>
+		// 	<div className="font-semibold">{label}</div>
+		// 	<div className="col-span-4">
 				<FormItem
 					className="mb-0 w-3/6"
 					invalid={errors[name] && touched[name]}
@@ -29,8 +28,8 @@ const FormRow = props => {
 				>
 					{children}
 				</FormItem>
-			</div>
-		</div>
+		// 	</div>
+		// </div>
 	)
 }
 

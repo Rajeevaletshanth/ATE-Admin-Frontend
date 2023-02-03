@@ -16,7 +16,7 @@ export const themeConfig = {
     controlSize: 'md',
     navMode: 'transparent',
     layout: {
-        type: THEME_ENUM.LAYOUT_TYPE_MODERN,
+        type: THEME_ENUM.LAYOUT_TYPE_STACKED_SIDE,
         sideNavCollapse: false,
     },
 }
