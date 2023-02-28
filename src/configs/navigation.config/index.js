@@ -81,7 +81,7 @@ const navigationConfig = [
         path: "/settings/account/profile",
         title: "Account",
         translateKey: "nav.account",
-        icon: "cog",
+        icon: "account_setting",
         type: NAV_ITEM_TYPE_ITEM,
         authority: [],
         subMenu: [],
@@ -93,7 +93,7 @@ const navigationConfig = [
     path: "",
     title: "Leads",
     translateKey: "nav.leads",
-    icon: "",
+    icon: "leads",
     type: NAV_ITEM_TYPE_TITLE,
     authority: [SUPERADMIN, ADMIN],
     subMenu: [

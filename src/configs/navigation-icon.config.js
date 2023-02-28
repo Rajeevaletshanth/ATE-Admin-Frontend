@@ -21,7 +21,9 @@ import {
 } from 'react-icons/tb'
 import {
     MdOutlineRestaurantMenu,
-    MdFastfood
+    MdFastfood,
+    MdManageAccounts,
+    MdOutlineAccountCircle
 } from 'react-icons/md'
 
 
@@ -39,6 +41,8 @@ const navigationIcon = {
     table: <TbStack />,
     reservation: <HiOutlineCalendar />,
     product: <MdFastfood />,
+    leads: <MdManageAccounts />,
+    account_setting: <MdOutlineAccountCircle />
 }
 
 export default navigationIcon

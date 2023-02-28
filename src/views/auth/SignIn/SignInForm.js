@@ -1,5 +1,5 @@
-import React from 'react'
-import { Input, Button, Checkbox, FormItem, FormContainer, Alert } from 'components/ui'
+import React, { useState } from 'react'
+import { Input, Button, Checkbox, FormItem, FormContainer, Alert, Switcher  } from 'components/ui'
 import { PasswordInput, ActionLink } from 'components/shared'
 import useTimeOutMessage from 'utils/hooks/useTimeOutMessage'
 import { Field, Form, Formik } from 'formik'
@@ -13,6 +13,12 @@ const validationSchema = Yup.object().shape({
 })
 
 const SignInForm = props => {
+
+	const [isAdmin, setAdmin] = useState(false)
+
+	const onSwitcherToggle = (val) => {
+        setAdmin(val)
+    }
 
 	const { 
 		disableSubmit = false, 
@@ -29,7 +35,7 @@ const SignInForm = props => {
 		const { email, password, rememberMe } = values
 		setSubmitting(true)
 		
-		const result = await signIn({ email, password, signedIn: rememberMe })
+		const result = await signIn({ email, password, signedIn: rememberMe, isSuperadmin: isAdmin })
 
 		if (result.status === 'failed') {
 			setMessage(result.message)
@@ -40,12 +46,19 @@ const SignInForm = props => {
 
 	return (
 		<div className={className}>
+			<div className="mb-8">
+				<div class="flex justify-between items-center">
+					<h3 className="mb-1">{isAdmin? "Admin Login" : "Restaurant Login"} </h3>
+					<Switcher checkedContent="Admin" unCheckedContent="Admin" onChange={onSwitcherToggle} />
+				</div>
+				<p>Please enter your credentials to sign in!</p>
+			</div>
 			{message && <Alert className="mb-4" type="danger" showIcon>{message}</Alert>}
 			<Formik
 				initialValues={{
 					email: '', 
 					password: '', 
-					rememberMe: true 
+					rememberMe: false 
 				}}
 				validationSchema={validationSchema}
 				onSubmit={(values, { setSubmitting }) => {
@@ -87,19 +100,21 @@ const SignInForm = props => {
 							<div className="flex justify-between mb-6">
 								<Field className="mb-0" name="rememberMe" component={Checkbox}  children="Remember Me" />
 								
-								<ActionLink to={forgotPasswordUrl}>
+								<ActionLink to={forgotPasswordUrl} hidden={isAdmin?true:false}>
 									Forgot Password?
 								</ActionLink>
 							</div>
 							<Button block loading={isSubmitting} variant="solid" type="submit">
 								{ isSubmitting ? 'Signing in...' : 'Sign In' }
 							</Button>
-							<div className="mt-4 text-center">
+							<div className="mt-4 text-center" hidden={isAdmin?true:false}>
 								<span>Don't have an account yet? </span>
 								<ActionLink to={signUpUrl}>
 									Sign up
 								</ActionLink>
 							</div>
+							
+							
 						</FormContainer>
 					</Form>
 				)}
