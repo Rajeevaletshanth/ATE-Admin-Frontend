@@ -100,7 +100,7 @@ const ProductList = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
         {filteredProducts.length === 0 && "No products found!"}
         {filteredProducts.map((item, key) => {
           return [
@@ -128,7 +128,7 @@ const ProductList = (props) => {
                 <span className="text-center">
                   <Button
                     className="mr-2 mb-2 px-5"
-                    size="sm"
+                    size="xs"
                     variant="solid"
                     color="gray-600"
                     id={item.id}
@@ -140,9 +140,10 @@ const ProductList = (props) => {
                   </Button>
 
                   <Button
-                    size="sm"
+                    className="bg-primary"
+                    size="xs"
                     variant="solid"
-                    color="red-900"
+                    // color="red-900"
                     onClick={() => deleteRow(item.id)}
                   >
                     {" "}

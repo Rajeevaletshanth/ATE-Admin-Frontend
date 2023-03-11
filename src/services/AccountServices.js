@@ -61,7 +61,7 @@ export async function changeShopPassword (id, data) {
     })
 }
 
-export async function getShoDet (id) {
+export async function getShopDet (id) {
     return new Promise((resolve, reject) => {
         axios.get(`${config.SERVER_URL}/restaurant/${id}`, 
         {headers: {

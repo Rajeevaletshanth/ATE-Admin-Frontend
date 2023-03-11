@@ -13,6 +13,9 @@
         "dispatcher": "Dispatcher",
         "table": "Table",
         "reservation": "Reservation",
-        "products" : "Products"
+        "products" : "Products",
+        "combo" : "Combo Menu",
+        "addons" : "Addons",
+        "category" : "Category"
     }
 }

@@ -4,7 +4,7 @@ import { AdaptableCard, Container } from 'components/shared'
 import { useNavigate, useLocation } from 'react-router-dom'
 import isEmpty from 'lodash/isEmpty'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAdminDet, getShoDet } from 'services/AccountServices'
+import { getAdminDet, getShopDet } from 'services/AccountServices'
 import useAuth from 'utils/hooks/useAuth'
 
 const Profile = lazy(() => import('./components/Profile'))
@@ -23,6 +23,7 @@ const Settings = () => {
 
 	const [currentTab, setCurrentTab] = useState('profile')
 	const [data, setData] = useState({})
+	const [isAdmin, setAdmin] = useState(false)
 
   const { checkAuthenticate } = useAuth()
 
@@ -30,7 +31,8 @@ const Settings = () => {
 
 	const location = useLocation()
 
-  const { id } = useSelector((state) => state.auth.user)
+  	const { id } = useSelector((state) => state.auth.user)
+	  const { authority } = useSelector((state) => state.auth.user)
 
 	const path = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
@@ -40,18 +42,33 @@ const Settings = () => {
 	}
 
 	const fetchData = async () => {
-    await checkAuthenticate();
-		const response = await getShoDet(id)
-		console.log(response.data)
-		setData({
-			id: response.data.restaurant[0].id,
-			username: response.data.restaurant[0].name,
-			email: response.data.restaurant[0].email,
-			authority: response.data.restaurant[0].authority,
-			address: response.data.restaurant[0].address,
-			phone_no: response.data.restaurant[0].phone_no,
-			avatar: response.data.restaurant[0].avatar
-		})
+		await checkAuthenticate();
+		if(authority.includes('superadmin') && authority.includes('admin')){
+			let response = await getAdminDet(id)
+			setAdmin(true)
+			setData({
+				id: response.data.admin[0].id,
+				username: response.data.admin[0].username,
+				email: response.data.admin[0].email,
+				authority: response.data.admin[0].authority,
+				address: response.data.admin[0].address,
+				phone_no: response.data.admin[0].phone_no,
+				avatar: response.data.admin[0].avatar
+			})
+		}else{
+			let response = await getShopDet(id)
+			setData({
+				id: response.data.restaurant[0].id,
+				username: response.data.restaurant[0].name,
+				email: response.data.restaurant[0].email,
+				authority: response.data.restaurant[0].authority,
+				address: response.data.restaurant[0].address,
+				phone_no: response.data.restaurant[0].phone_no,
+				avatar: response.data.restaurant[0].avatar
+			})
+		}
+		// console.log(response.data)
+		
 	}
 
 	useEffect(() => {
@@ -76,9 +93,9 @@ const Settings = () => {
 				</Tabs>
 				<div className="px-4 py-6">
 					<Suspense fallback={<></>}>
-						{ currentTab === 'profile' && <Profile data={data} /> }
-						{ currentTab === 'password' && <Password data={data} /> }
-						{ currentTab === 'billing' && <Billing data={data} />}
+						{ currentTab === 'profile' && <Profile isAdmin={isAdmin} data={data} /> }
+						{ currentTab === 'password' && <Password isAdmin={isAdmin} data={data} /> }
+						{ currentTab === 'billing' && <Billing isAdmin={isAdmin} data={data} />}
 						{/* { currentTab === 'password' && <Password data={data.loginHistory} /> }
 						{ currentTab === 'billing' && <Billing data={data.loginHistory} />}  */}
 					</Suspense>

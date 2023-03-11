@@ -9,12 +9,12 @@ const Cover = ({children, content, ...rest }) => {
 				className="col-span-2 bg-no-repeat bg-cover py-6 px-16 flex-col justify-between bg-white dark:bg-gray-800 hidden lg:flex"
 				style={{backgroundImage: `url('/img/others/auth-cover-bg.jpg')`}}
 			>
-				<Logo mode="dark" />
+				<Logo mode="light" />
 				<div>
-					<h3 className="text-white mb-4">Jump start your project with Elstar</h3>
-					<p className="text-lg text-white opacity-80 max-w-[700px]">Elstar comes with a complete set of UI components crafted with Tailwind CSS, it fulfilled most of the use case to create modern and beautiful UI and application</p>
+					<h2 className="text-xl text-bold text-white text-center max-w-[700px] mb-4 bg-red-600">Jump start your business with ATE</h2>
+					<p className="text-lg text-dark text-center opacity-80 max-w-[700px]">Welcome to the ATE Admin Page! As a restaurant partner, you have access to all the tools and features you need to manage your menu, orders, and deliveries.</p>
 				</div>
-				<span className="text-white">Copyright  &copy;  {`${new Date().getFullYear()}`} <span className="font-semibold">{`${APP_NAME}`}</span> </span>
+				<span className="text-dark">Copyright  &copy;  {`${new Date().getFullYear()}`} <span className="font-semibold">{`${APP_NAME}`}</span> </span>
 			</div>
 			<div className="flex flex-col justify-center items-center bg-white dark:bg-gray-800">
 				<div className="xl:min-w-[450px] px-8">

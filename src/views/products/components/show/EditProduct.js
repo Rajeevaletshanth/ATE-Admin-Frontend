@@ -233,7 +233,7 @@ const EditProduct = ({ id, data, selectedCategory, refresh, setRefresh }) => {
                 <Field name="category" component={Input}>
                   {({ field, form }) => (
                     <Select
-                      componentAs={CreatableSelect}
+                      // componentAs={CreatableSelect}
                       field={field}
                       form={form}
                       options={categoryOption}
@@ -268,7 +268,7 @@ const EditProduct = ({ id, data, selectedCategory, refresh, setRefresh }) => {
                 <Field name="addons">
                   {({ field, form }) => (
                     <Select
-                      componentAs={CreatableSelect}
+                      // componentAs={CreatableSelect}
                       isMulti
                       field={field}
                       form={form}

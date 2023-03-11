@@ -62,6 +62,42 @@ const restaurantRoute = [
         component: React.lazy(() => import('views/products')),
         authority: [RESTAURANT],
     },
+    {
+        key: 'restaurant.combos',
+        path: '/restaurant/combo/add',
+        component: React.lazy(() => import('views/comboMenu')),
+        authority: [RESTAURANT],
+    },
+    {
+        key: 'restaurant.combos',
+        path: '/restaurant/combo/show',
+        component: React.lazy(() => import('views/comboMenu')),
+        authority: [RESTAURANT],
+    },
+    {
+        key: 'restaurant.addons',
+        path: '/restaurant/addons/add',
+        component: React.lazy(() => import('views/addons')),
+        authority: [RESTAURANT],
+    },
+    {
+        key: 'restaurant.addons',
+        path: '/restaurant/addons/show',
+        component: React.lazy(() => import('views/addons')),
+        authority: [RESTAURANT],
+    },
+    {
+        key: 'restaurant.category',
+        path: '/restaurant/category/add',
+        component: React.lazy(() => import('views/category')),
+        authority: [RESTAURANT],
+    },
+    {
+        key: 'restaurant.category',
+        path: '/restaurant/category/show',
+        component: React.lazy(() => import('views/category')),
+        authority: [RESTAURANT],
+    },
 ]
 
 export default restaurantRoute

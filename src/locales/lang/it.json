@@ -13,6 +13,9 @@
         "dispatcher": "Spedizioniere",
         "table": "Tavolo",
         "reservation": "Prenotazione",
-        "products" : "Prodotti"
+        "products" : "Prodotti",
+        "combo" : "Menù Combinato",
+        "addons" : "Aggiungi su",
+        "category" : "Categoria"
     }
 }

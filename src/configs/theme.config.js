@@ -6,7 +6,7 @@ import { THEME_ENUM } from 'constants/theme.constant'
  */
 
 export const themeConfig = {
-    themeColor: 'indigo',
+    themeColor: 'red',
     direction: THEME_ENUM.DIR_LTR,
     mode: THEME_ENUM.MODE_LIGHT,
     locale: 'en',
@@ -16,7 +16,7 @@ export const themeConfig = {
     controlSize: 'md',
     navMode: 'transparent',
     layout: {
-        type: THEME_ENUM.LAYOUT_TYPE_STACKED_SIDE,
+        type: THEME_ENUM.LAYOUT_TYPE_CLASSIC,
         sideNavCollapse: false,
     },
 }

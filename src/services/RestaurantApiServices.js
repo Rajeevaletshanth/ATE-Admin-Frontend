@@ -196,6 +196,67 @@ export async function removeProduct(id) {
     })
 }
 
+//Combo Menu
+export async function getAllComboMenu(restaurant_id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${config.SERVER_URL}/combo_menu/list/${restaurant_id}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function editComboMenu(id, data) {
+    return new Promise((resolve, reject) => {
+        axios.put(`${config.SERVER_URL}/combo_menu/edit/${id}`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function addComboMenu(data) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${config.SERVER_URL}/combo_menu/create`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function removeComboMenu(id) {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${config.SERVER_URL}/combo_menu/delete/${id}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
 
 //Category
 export async function getAllCategory(restaurant_id) {
@@ -213,10 +274,100 @@ export async function getAllCategory(restaurant_id) {
     })
 }
 
+export async function addNewCategory(data) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${config.SERVER_URL}/category/create`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function editCategory(id, data) {
+    return new Promise((resolve, reject) => {
+        axios.put(`${config.SERVER_URL}/category/edit/${id}`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function deleteCategory(id) {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${config.SERVER_URL}/category/delete/${id}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
 //Addons
 export async function getAllAddons(restaurant_id) {
     return new Promise((resolve, reject) => {
         axios.get(`${config.SERVER_URL}/addons/list/${restaurant_id}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function addNewAddon(data) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${config.SERVER_URL}/addons/create`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function editAddon(id, data) {
+    return new Promise((resolve, reject) => {
+        axios.put(`${config.SERVER_URL}/addons/edit/${id}`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function deleteAddon(id) {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${config.SERVER_URL}/addons/delete/${id}`, 
             {
                 headers: {
                     'Authorization': `Bearer ${getAccessToken()}`

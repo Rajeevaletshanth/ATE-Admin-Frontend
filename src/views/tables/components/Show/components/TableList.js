@@ -120,7 +120,7 @@ const TableList = (props) => {
                     className="mr-2 mb-2"
                     size="xs"
                     variant="solid"
-                    color="gray-600"
+                    color="green-600"
                     onClick={() =>
                       downloadQr(
                         item.qr_code,
@@ -146,9 +146,10 @@ const TableList = (props) => {
                   </Button>
 
                   <Button
+                    className="bg-primary"
                     size="xs"
                     variant="solid"
-                    color="red-800"
+                    // color="red-800"
                     onClick={() => deleteRow(item.id)}
                   >
                     {" "}

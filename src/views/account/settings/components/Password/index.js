@@ -23,14 +23,20 @@ const validationSchema = Yup.object().shape({
 	confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Password not match')
 })
 
-const Password = ({ data }) => {
+const Password = ({ data, isAdmin }) => {
 
 	const onFormSubmit = async(values, setSubmitting) => {
     if(values.password === values.newPassword){
       toast.push(<Notification title={"Your current password and new password cannot be same!"} type="danger" />,{placement: 'top-center'})
       setSubmitting(false)
     }else{
-      const response = await changeShopPassword(data.id, { currentPassword: values.password, newPassword: values.newPassword })
+		var response = []
+		if(isAdmin){
+			response = await changePassword(data.id, { currentPassword: values.password, newPassword: values.newPassword })
+		}else{
+			response = await changeShopPassword(data.id, { currentPassword: values.password, newPassword: values.newPassword })
+		}
+      
       if(response.data){
         if(response.data.response === "success"){
           toast.push(<Notification title={"Password updated"} type="success" />,{placement: 'top-center'})

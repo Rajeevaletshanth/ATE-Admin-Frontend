@@ -82,7 +82,7 @@ const uploadProfile = async(file) => {
     }
 }
 
-const Profile = ({data}) => {
+const Profile = ({data, isAdmin}) => {
     const dispatch = useDispatch()
 
     const [avatarFile, setAvatarFile] = useState([]);
@@ -119,7 +119,13 @@ const Profile = ({data}) => {
                     phone_no: values.phone_no,
                     avatar : image
                 }
-                const response = await editShopDet(values.id, formData);
+                var response = [];
+                if(isAdmin){
+                    response = await editAdminDet(values.id, formData);
+                }else{
+                    response = await editShopDet(values.id, formData);
+                }
+                
                 if(response.data){
                     if(response.data.response === "success"){
                         dispatch(setUser({

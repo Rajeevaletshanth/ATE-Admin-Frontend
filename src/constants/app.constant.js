@@ -1,3 +1,3 @@
-export const APP_NAME = 'LTW Tech'
+export const APP_NAME = 'AnyTimeEat'
 export const PERSIST_STORE_NAME = 'admin'
 export const REDIRECT_URL_KEY = 'redirectUrl'

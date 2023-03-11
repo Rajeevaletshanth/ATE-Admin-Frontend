@@ -23,8 +23,13 @@ import {
     MdOutlineRestaurantMenu,
     MdFastfood,
     MdManageAccounts,
-    MdOutlineAccountCircle
+    MdOutlineAccountCircle,
+    MdBookmarkAdd,
+    MdOutlineCategory
 } from 'react-icons/md'
+import {
+    GiNoodles
+} from 'react-icons/gi'
 
 
 const navigationIcon = {
@@ -40,9 +45,12 @@ const navigationIcon = {
     cog: <HiCog />,
     table: <TbStack />,
     reservation: <HiOutlineCalendar />,
-    product: <MdFastfood />,
+    addons: <MdBookmarkAdd />,
+    product: <GiNoodles />,
+    combo: <MdFastfood />,
     leads: <MdManageAccounts />,
-    account_setting: <MdOutlineAccountCircle />
+    account_setting: <MdOutlineAccountCircle />,
+    category: <MdOutlineCategory />
 }
 
 export default navigationIcon
