@@ -104,7 +104,7 @@ const ProductList = (props) => {
             {filteredProducts.map((item, key) => {
               return [
                 <Tr key={key}>
-                  <Td>{item.id}</Td>
+                  <Td>{key+1}</Td>
                   <Td>{item.name}</Td>
                   <Td>{item.description}</Td>
                   <Td className="flex justify-center">
