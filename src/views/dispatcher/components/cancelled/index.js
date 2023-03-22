@@ -77,7 +77,7 @@ const Cancelled = ({orders, setRefresh}) => {
                                 <div class="w-1/2">
                                     <p><b>Order Date:</b> {moment(item.order_date).format("MMMM DD, YYYY")}</p>
                                     <p><b>Order Time:</b> {moment(item.order_time, "HH:mm:ss").format("h:mm A")}</p>
-                                    <p><b>Status:</b> {item.status} </p>
+                                    <p><b>Delivery Address:</b> {item.delivery_address} </p>
                                 </div>
                             </div>
                                 <Table className="mt-3">
