@@ -7,11 +7,12 @@ import useAuth from 'utils/hooks/useAuth'
 import reducer from './store'
 import { injectReducer } from 'store/index'
 import { getOrders } from './store/dataSlice'
+// import io from 'socket.io-client';
 
-
-import {
-	MdPendingActions
-} from 'react-icons/md'
+// const socket = io('http://localhost:5005');
+const socket = require("socket.io-client")('http://localhost:5006', {
+	rejectUnauthorized: true 
+});
 
 injectReducer('manageOrders', reducer)
 
@@ -60,7 +61,12 @@ const Settings = () => {
 		dispatch(getOrders(id));
 	}
 
+	const joinRoom = () => {
+		socket.emit("join_room", id); 
+	  };
+
 	useEffect(() => {
+		joinRoom();
 		setCurrentTab(path)    
 		fetchData()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,6 +77,21 @@ const Settings = () => {
 			fetchData()
 		setRefresh(false)
 	},[orders, refresh])
+
+	useEffect(() => {
+		const handleReceiveOrder = (data) => {
+		  console.log('Received new order:', data);
+		  if (data.room === id) {
+			setRefresh(true);
+		  }
+		};
+	  
+		socket.on('receive_order', handleReceiveOrder);
+	  
+		return () => {
+		  socket.off('receive_order', handleReceiveOrder);
+		};
+	}, [id, socket]);
 
 	return (
 		<Container>
