@@ -5,6 +5,11 @@ import moment from 'moment';
 import { putOrder } from '../../store/dataSlice';
 import  { editStatus, archiveOrder } from 'services/RestaurantApiServices'
 
+import config from 'configs/config.json'
+const socket = require("socket.io-client")(config.SOCKET_URL, {
+	rejectUnauthorized: true 
+});
+
 const { Tr, Th, Td, THead, TBody } = Table
 
 const Delivered = ({orders, setRefresh}) => {
@@ -42,6 +47,11 @@ const Delivered = ({orders, setRefresh}) => {
     )
 
     let order_count = 0;
+
+    const handleUpdate = (event, id, order_number) => {
+        deleteOrder(event, id)
+        socket.emit('update_order_status', { room: order_number, message: 'Status Updated' })
+    }
 
 
 	return (
@@ -95,7 +105,7 @@ const Delivered = ({orders, setRefresh}) => {
                             </div>
                             <div className="flex justify-end mt-3">
                                 {/* <Button size="sm" className="ltr:mr-2 rtl:ml-2" loading={loading.value && loading.status === "cancelled" && loading.id === item.order_id? true : false} onClick={(event) => updateStatus(event, item.order_id, "cancelled")}>Cancel</Button> */}
-                                <Button size="sm" variant="solid" color="red" loading={loading.value && loading.id === item.order_id? true : false} onClick={(event) => deleteOrder(event, item.order_id)}>Archive</Button>
+                                <Button size="sm" variant="solid" color="red" loading={loading.value && loading.id === item.order_id? true : false} onClick={(event) => handleUpdate(event, item.order_id, item.order_number)}>Archive</Button>
                             </div>
                         </Card>
                     ]

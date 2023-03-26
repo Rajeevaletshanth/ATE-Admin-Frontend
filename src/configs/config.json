@@ -1,3 +1,4 @@
 {
-    "SERVER_URL" : "http://localhost:5005"
+    "SERVER_URL" : "http://localhost:5005",
+    "SOCKET_URL" : "http://localhost:5006"
 }

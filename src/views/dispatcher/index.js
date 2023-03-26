@@ -9,8 +9,8 @@ import { injectReducer } from 'store/index'
 import { getOrders } from './store/dataSlice'
 // import io from 'socket.io-client';
 
-// const socket = io('http://localhost:5005');
-const socket = require("socket.io-client")('http://localhost:5006', {
+import config from 'configs/config.json'
+const socket = require("socket.io-client")(config.SOCKET_URL, {
 	rejectUnauthorized: true 
 });
 
@@ -63,7 +63,7 @@ const Settings = () => {
 
 	const joinRoom = () => {
 		socket.emit("join_room", id); 
-	  };
+	};
 
 	useEffect(() => {
 		joinRoom();
