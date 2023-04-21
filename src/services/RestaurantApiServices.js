@@ -379,3 +379,64 @@ export async function deleteAddon(id) {
             })
     })
 }
+
+//Category
+export async function getAllCuisines() {
+    return new Promise((resolve, reject) => {
+        axios.get(`${config.SERVER_URL}/cuisines/list`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function addNewCuisine(data) {
+    return new Promise((resolve, reject) => {
+        axios.post(`${config.SERVER_URL}/cuisines/create`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function editCuisine(id, data) {
+    return new Promise((resolve, reject) => {
+        axios.put(`${config.SERVER_URL}/cuisines/edit/${id}`, data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function deleteCuisine(id) {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${config.SERVER_URL}/cuisines/delete/${id}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}

@@ -13,7 +13,7 @@ const navigationConfig = [
     translateKey: "nav.restaurant",
     icon: "restaurant",
     type: NAV_ITEM_TYPE_TITLE,
-    authority: [RESTAURANT],
+    authority: [ADMIN,SUPERADMIN,RESTAURANT],
     subMenu: [
       {
         key: "home",
@@ -93,6 +93,16 @@ const navigationConfig = [
         icon: "category",
         type: NAV_ITEM_TYPE_ITEM,
         authority: [RESTAURANT],
+        subMenu: [],
+      },
+      {
+        key: "cuisines",
+        path: "/admin/cuisines/show",
+        title: "Cuisines",
+        translateKey: "nav.cuisines",
+        icon: "category",
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: [ADMIN,SUPERADMIN],
         subMenu: [],
       },
     ],

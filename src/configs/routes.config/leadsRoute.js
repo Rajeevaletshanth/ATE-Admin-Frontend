@@ -13,7 +13,19 @@ const leadsRoute = [
         path: '/leads/manage_lead',
         component: React.lazy(() => import('views/leads/manage')),
         authority: [SUPERADMIN],
-    }
+    },
+    {
+        key: 'admin.cuisine',
+        path: '/admin/cuisines/add',
+        component: React.lazy(() => import('views/cuisines')),
+        authority: [SUPERADMIN, ADMIN],
+    },
+    {
+        key: 'admin.cuisine',
+        path: '/admin/cuisines/show',
+        component: React.lazy(() => import('views/cuisines')),
+        authority: [SUPERADMIN, ADMIN],
+    },
 ]
 
 export default leadsRoute
