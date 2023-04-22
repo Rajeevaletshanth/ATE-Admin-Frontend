@@ -21,9 +21,10 @@ import {
 import { matchSorter } from "match-sorter";
 import EditCategory from "./EditCategory";
 import { toast, Notification } from "components/ui";
-import { deleteCategory } from "services/RestaurantApiServices";
+import { deleteRestaurantApi } from "services/RestaurantApiServices";
 import { AiOutlineFieldNumber } from "react-icons/ai";
 import { FaShapes, FaChair } from "react-icons/fa";
+import {  MdEmail, MdPhone } from "react-icons/md";
 import RenderImage from "./RenderImage";
 const { Tr, Th, Td, THead, TBody } = Table;
 
@@ -51,7 +52,7 @@ const ProductList = (props) => {
   };
 
   const deleteRow = async (id) => {
-    const resp = await deleteCategory(id);
+    const resp = await deleteRestaurantApi(id);
     if (resp.data) {
       if (resp.data.response === "success") {
         toast.push(<Notification title={resp.data.message} type="success" />, {
@@ -84,114 +85,66 @@ const ProductList = (props) => {
               setSearchTerm(e.target.value);
             }}
             style={{ maxWidth: 180 }}
-            placeholder={`Search Addon`}
+            placeholder={`Search Restaurant`}
           />
         </div>
       </div>
 
-      <div className="bg-gray-100 dark:bg-gray-800">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
         {filteredProducts.length === 0 && "No products found!"}
-        <Table>
-          <THead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Name</Th>
-              <Th>Description</Th>
-              <Th className="flex justify-center">Action</Th>
-            </Tr>
-          </THead>
-          <TBody>
             {filteredProducts.map((item, key) => {
               return [
-                <Tr key={key}>
-                  <Td>{key+1}</Td>
-                  <Td>{item.name}</Td>
-                  <Td>{item.description}</Td>
-                  <Td className="flex justify-center">
-                    <div className="flex justify-center items-center mt-5">
-                      <span className="text-center">
-                        <Button
-                          className="mr-2 mb-2 px-5"
-                          size="xs"
-                          variant="solid"
-                          color="gray-600"
-                          id={item.id}
-                          data-details={JSON.stringify(item)}
-                          onClick={editLead}
-                        >
-                          {" "}
-                          Edit{" "}
-                        </Button>
-
-                        <Button
-                          className="bg-primary"
-                          size="xs"
-                          variant="solid"
-                          // color="red-900"
-                          onClick={() => deleteRow(item.id)}
-                        >
-                          {" "}
-                          Delete{" "}
-                        </Button>
-                      </span>
+                <Card
+                  key={key}
+                  clickable
+                  className="hover:shadow-lg transition duration-150 ease-in-out   dark:border dark:border-gray-600 dark:border-solid flex justify-center items-center mb-2"
+                  headerClass="p-0"
+                >
+                  <RenderImage image={item.avatar}/>
+                  <div className="col">
+                    <h5 class="flex justify-center items-center ">
+                      <b>{item.name}</b>
+                    </h5>
+                    <div class="flex justify-center items-center">
+                      {item.description}
                     </div>
-                  </Td>
-                </Tr>,
-                // <Card
-                //   key={key}
-                //   clickable
-                //   className="hover:shadow-lg transition duration-150 ease-in-out   dark:border dark:border-gray-600 dark:border-solid flex justify-center items-center mb-2"
-                //   headerClass="p-0"
-                // >
+                    <div class="flex justify-center items-center text-xs text-">
+                      <MdEmail/>{item.email}
+                    </div>
+                    <div class="flex justify-center items-center text-xs">
+                      <MdPhone/>{item.phone_no}
+                    </div>
+                  </div>
 
-                //   <div className="col">
-                //     <h5 class="flex justify-center items-center ">
-                //       <b>{item.name}</b>
-                //     </h5>
-                //     <div class="flex justify-center items-center">
-                //       {item.description}
-                //     </div>
-                //     <h6 class="flex justify-center items-center">
-                //       <Tag
-                //         size={20}
-                //         className="bg-green-600 text-white dark:bg-green-600 border-0 rounded mt-2 text-xs"
-                //       >
-                //         <b>€ {item.price}</b>
-                //       </Tag>
-                //     </h6>
-                //   </div>
+                  <div className="flex justify-center items-center mt-5">
+                    <span className="text-center">
+                      <Button
+                        className="mr-2 mb-2 px-5"
+                        size="sm"
+                        variant="solid"
+                        color="gray-600"
+                        id={item.id}
+                        data-details={JSON.stringify(item)}
+                        onClick={editLead}
+                      >
+                        {" "}
+                        Edit{" "}
+                      </Button>
 
-                //   <div className="flex justify-center items-center mt-5">
-                //     <span className="text-center">
-                //       <Button
-                //         className="mr-2 mb-2 px-5"
-                //         size="sm"
-                //         variant="solid"
-                //         color="gray-600"
-                //         id={item.id}
-                //         data-details={JSON.stringify(item)}
-                //         onClick={editLead}
-                //       >
-                //         {" "}
-                //         Edit{" "}
-                //       </Button>
-
-                //       <Button
-                //         size="sm"
-                //         variant="solid"
-                //         color="red-900"
-                //         onClick={() => deleteRow(item.id)}
-                //       >
-                //         {" "}
-                //         Delete{" "}
-                //       </Button>
-                //     </span>
-                //   </div>
-                // </Card>,
+                      <Button
+                        size="sm"
+                        variant="solid"
+                        color="red-900"
+                        onClick={() => deleteRow(item.id)}
+                      >
+                        {" "}
+                        Delete{" "}
+                      </Button>
+                    </span>
+                  </div>
+                </Card>
               ];
             })}
-          </TBody>
-        </Table>
       </div>
 
       {

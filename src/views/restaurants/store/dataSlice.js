@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import  { getAllCategory } from 'services/RestaurantApiServices'
+import  { getAllRestaurants } from 'services/RestaurantApiServices'
 
-export const getCategory = createAsyncThunk('manageCategory/data/getCategory',async (restaurant_id) => {
-    const response = await getAllCategory(restaurant_id)
+export const getRestaurants = createAsyncThunk('manageRestaurants/data/getRestaurants',async () => {
+    const response = await getAllRestaurants()
     return response.data
 })
 
@@ -12,19 +12,19 @@ export const initialFilterData = {
 }
 
 const dataSlice = createSlice({
-    name: 'manageCategory/data',
+    name: 'manageRestaurants/data',
     initialState: {
         loading: true,
-        category: {},
+        restaurant: {},
     },
     reducers: {   
     },
     extraReducers: {
-        [getCategory.fulfilled]: (state, action) => {
-            state.category = action.payload
+        [getRestaurants.fulfilled]: (state, action) => {
+            state.restaurant = action.payload
             state.loading = false
         },
-        [getCategory.pending]: (state) => {
+        [getRestaurants.pending]: (state) => {
             state.loading = true
         }
     }

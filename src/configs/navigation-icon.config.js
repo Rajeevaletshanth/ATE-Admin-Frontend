@@ -30,6 +30,14 @@ import {
 import {
     GiNoodles
 } from 'react-icons/gi'
+import {
+    GrRestaurant
+} from 'react-icons/gr'
+import {
+    RiRestaurantLine
+} from 'react-icons/ri'
+
+
 
 
 const navigationIcon = {
@@ -50,7 +58,9 @@ const navigationIcon = {
     combo: <MdFastfood />,
     leads: <MdManageAccounts />,
     account_setting: <MdOutlineAccountCircle />,
-    category: <MdOutlineCategory />
+    category: <MdOutlineCategory />,
+    restaurants: <GrRestaurant/>,
+    cuisines: <RiRestaurantLine/>
 }
 
 export default navigationIcon

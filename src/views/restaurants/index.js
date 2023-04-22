@@ -7,18 +7,16 @@ import isEmpty from 'lodash/isEmpty'
 import useAuth from 'utils/hooks/useAuth'
 import reducer from './store'
 import { injectReducer } from 'store/index'
-import { getCategory } from './store/dataSlice'
+import { getRestaurants } from './store/dataSlice'
 
-injectReducer('manageCategory', reducer)
+injectReducer('manageRestaurants', reducer)
 
-const Create = lazy(() => import('./components/create'))
 const Show = lazy(() => import('./components/show'))
 
 const { TabNav, TabList } = Tabs
 
 const settingsMenu = {
-	show: { label: 'Category List', path: 'show' },
-	add: { label: 'Add Category', path: 'add' },
+	show: { label: 'Restaurants', path: 'show' }
 }
 
 const Products = () => {
@@ -38,17 +36,17 @@ const Products = () => {
 
 	const path = location.pathname.substring(location.pathname.lastIndexOf('/') + 1)
 
-    const category = useSelector((state) => state.manageCategory?.data?.category?.category);
-	const loading = useSelector((state) => state.manageAddons?.data?.loading);
+    const restaurant = useSelector((state) => state.manageRestaurants?.data?.restaurant?.restaurant);
+	const loading = useSelector((state) => state.manageRestaurants?.data?.loading);
 
 	const onTabChange = val => {
 		setCurrentTab(val)
-		navigate(`/restaurant/category/${val}`)
+		navigate(`/admin/restaurants/${val}`)
 	}
 
 	const fetchData = async () => {
         await checkAuthenticate();
-        dispatch(getCategory(id));
+        dispatch(getRestaurants());
 	}
 
 	useEffect(() => {
@@ -73,8 +71,7 @@ const Products = () => {
 				</Tabs>
 				<div className="px-4 py-6">
 					<Suspense fallback={<></>}>
-						{ currentTab === 'show' && <Show id={id} data={category? category: []} dataLength={category? category.length: 0} refresh={refresh} setRefresh={setRefresh}/> }
-                        { currentTab === 'add' && <Create id={id} refresh={refresh} setRefresh={setRefresh}/> }
+						{ currentTab === 'show' && <Show id={id} data={restaurant? restaurant: []} dataLength={restaurant? restaurant.length: 0} refresh={refresh} setRefresh={setRefresh}/> }
 					</Suspense>
 				</div>
 			</AdaptableCard>

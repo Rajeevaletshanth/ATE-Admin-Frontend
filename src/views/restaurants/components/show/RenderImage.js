@@ -27,7 +27,7 @@ const RenderImage = ({ image }) => {
     <div className="rounded-tl-lg rounded-tr-lg overflow-hidden w-full">          
       <Avatar
         className="overflow-hidden"
-        size={250}
+        size={200}
         shape="rounded"
         icon={<MdOutlineFastfood />}
         src={productImg}

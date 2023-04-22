@@ -440,3 +440,65 @@ export async function deleteCuisine(id) {
             })
     })
 }
+
+//Restaurants
+export async function getAllRestaurants() {
+    return new Promise((resolve, reject) => {
+        axios.get(`${config.SERVER_URL}/restaurant/list/all_kitchen`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function deleteRestaurantApi(id) {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${config.SERVER_URL}/restaurant/delete/${id}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+//Top Brands
+export async function getAllTopBrands() {
+    return new Promise((resolve, reject) => {
+        axios.get(`${config.SERVER_URL}/top_brands/list`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
+export async function addTopBrand(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${config.SERVER_URL}/top_brands/add/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }).then((res) => {
+                resolve(res)
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
