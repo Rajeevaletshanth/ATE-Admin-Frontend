@@ -26,6 +26,7 @@ import { AiOutlineFieldNumber } from "react-icons/ai";
 import { FaShapes, FaChair } from "react-icons/fa";
 import {  MdEmail, MdPhone } from "react-icons/md";
 import RenderImage from "./RenderImage";
+import { getAllTopBrands, addTopBrand } from "services/RestaurantApiServices";
 const { Tr, Th, Td, THead, TBody } = Table;
 
 const ProductList = (props) => {
@@ -34,6 +35,7 @@ const ProductList = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [editId, setEditId] = useState();
   const [editData, setEditData] = useState();
+  const [topBrands, setTopBrands] = useState([])
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -50,6 +52,19 @@ const ProductList = (props) => {
   const editLead = (e) => {
     openDrawer(e.target.getAttribute("data-details"));
   };
+
+  const setToTopBrand = async(id) => {
+    const response = await addTopBrand(id);
+    if(response.data.response === "success"){
+      toast.push(<Notification title={response.data.message} type="success" />, {
+        placement: "top-center",
+      });
+    }else{
+      toast.push(<Notification title={`Already Set to Top Brand`} type="warning" />, {
+        placement: "top-center",
+      });
+    }
+  }
 
   const deleteRow = async (id) => {
     const resp = await deleteRestaurantApi(id);
@@ -68,6 +83,17 @@ const ProductList = (props) => {
       }
     }
   };
+
+  const getTopBrands = async() => {
+    const response = await getAllTopBrands()
+    if(response.data.response === "success"){
+      setTopBrands(response.data.data)
+    }
+  }
+
+  useEffect(() => {
+    getTopBrands()
+  },[])
 
   const filteredProducts = data.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -122,13 +148,12 @@ const ProductList = (props) => {
                         className="mr-2 mb-2 px-5"
                         size="sm"
                         variant="solid"
-                        color="gray-600"
+                        color="green-500"
                         id={item.id}
                         data-details={JSON.stringify(item)}
-                        onClick={editLead}
+                        onClick={() => setToTopBrand(item.id)}
                       >
-                        {" "}
-                        Edit{" "}
+                        Set Top Brand
                       </Button>
 
                       <Button

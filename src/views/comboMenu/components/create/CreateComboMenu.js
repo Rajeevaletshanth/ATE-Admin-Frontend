@@ -64,7 +64,7 @@ const CreateComboMenu = ({id, refresh, setRefresh}) => {
 						name: '',
 						price: '',
 						description: '',
-						discount: ''
+						discount: 0
 					}}
 					validationSchema={validationSchema}
 					onSubmit={async(values, { setSubmitting }) => {
